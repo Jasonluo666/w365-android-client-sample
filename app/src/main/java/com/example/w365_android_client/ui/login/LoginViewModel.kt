@@ -8,11 +8,14 @@ import com.example.w365_android_client.repository.User
 import com.example.w365_android_client.repository.UserRepository
 import com.example.w365_android_client.usecase.UserLoginUseCase
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val userLoginUseCase: UserLoginUseCase
+) : ViewModel() {
     fun isUserLoggedIn(): LiveData<Boolean> {
         val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData<Boolean>();
-        UserLoginUseCase.observeUserStatusChanges().onEach {
+        userLoginUseCase.observeUserStatusChanges().onEach {
             isUserLoggedIn.value = (it != null)
         }.launchIn(viewModelScope)
 
@@ -20,6 +23,6 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login(userName: String?, password: String?) {
-        UserLoginUseCase.login(userName, password)
+        userLoginUseCase.login(userName, password)
     }
 }

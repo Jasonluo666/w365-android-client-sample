@@ -12,11 +12,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val userLoginUseCase: UserLoginUseCase
+) : ViewModel() {
     fun isUserLoggedIn(): LiveData<Boolean> {
         val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData<Boolean>();
-        UserLoginUseCase.observeUserStatusChanges().onEach {
+        userLoginUseCase.observeUserStatusChanges().onEach {
             isUserLoggedIn.value = (it != null)
         }.launchIn(viewModelScope)
 
@@ -24,6 +27,6 @@ class HomeViewModel : ViewModel() {
     }
 
     fun logout() {
-        UserLoginUseCase.logout()
+        userLoginUseCase.logout()
     }
 }

@@ -2,23 +2,26 @@ package com.example.w365_android_client.usecase
 
 import com.example.w365_android_client.repository.User
 import com.example.w365_android_client.repository.UserRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-object UserLoginUseCase {
+class UserLoginUseCase @Inject constructor(
+    private val userRepository: UserRepository
+) {
     fun isUserLoggedIn(): Boolean {
-        return UserRepository.user != null
+        return true
     }
 
     fun observeUserStatusChanges(): StateFlow<User?> {
-        return UserRepository.onUserStatusChanges
+        return MutableStateFlow<User?>(null)
     }
 
     fun login(userName: String?, password: String?): User {
         // TODO
 
         val currentUser = User(userName?: "123", password?: "123")
-        UserRepository.updateUser(currentUser)
+        userRepository.updateUser(currentUser)
 
         return currentUser
     }
@@ -26,7 +29,7 @@ object UserLoginUseCase {
     fun logout(): Boolean {
         // TODO
 
-        UserRepository.removeUser()
+        userRepository.removeUser()
         return true
     }
 }

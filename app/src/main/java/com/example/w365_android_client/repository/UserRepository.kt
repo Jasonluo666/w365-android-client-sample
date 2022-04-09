@@ -3,8 +3,11 @@ package com.example.w365_android_client.repository
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object UserRepository {
+@Singleton
+class UserRepository @Inject constructor() {
     private var _user: User? = null
 
     private val _onUserStatusChanges: MutableStateFlow<User?> = MutableStateFlow(null)
