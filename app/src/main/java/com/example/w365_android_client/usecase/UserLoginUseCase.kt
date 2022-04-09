@@ -2,10 +2,16 @@ package com.example.w365_android_client.usecase
 
 import com.example.w365_android_client.repository.User
 import com.example.w365_android_client.repository.UserRepository
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 object UserLoginUseCase {
     fun isUserLoggedIn(): Boolean {
         return UserRepository.user != null
+    }
+
+    fun observeUserStatusChanges(): StateFlow<User?> {
+        return UserRepository.onUserStatusChanges
     }
 
     fun login(userName: String?, password: String?): User {

@@ -40,10 +40,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.checkUserStatus()
-
-        homeViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer<Boolean> { res ->
-            if (!res){
+        homeViewModel.isUserLoggedIn().observe(viewLifecycleOwner, Observer<Boolean> { res ->
+            if (!res) {
                 navController.navigate(R.id.navigation_login)
             }
         })

@@ -9,8 +9,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.w365_android_client.R
 import com.example.w365_android_client.databinding.LoginFragmentBinding
 import com.example.w365_android_client.repository.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class LoginFragment : Fragment() {
     private lateinit var loginViewModel: LoginViewModel
@@ -36,8 +41,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.user.observe(viewLifecycleOwner, Observer<User?> { user ->
-            if (user != null){
+        loginViewModel.isUserLoggedIn().observe(viewLifecycleOwner, Observer<Boolean> { res ->
+            if (res){
                 navController.popBackStack()
             }
         })
